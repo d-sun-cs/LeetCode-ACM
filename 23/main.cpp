@@ -42,41 +42,41 @@ ListNode *mergeKLists(vector<ListNode *> &lists)
 
 int main()
 {
-    int cases;
-    cin >> cases;
-    while (cases)
+    // int cases;
+    // cin >> cases;
+    // while (cases)
+    // {
+    int k;
+    cin >> k;
+    vector<ListNode *> lists(k);
+    for (int i = 0; i < k; i++)
     {
-        int k;
-        cin >> k;
-        vector<ListNode *> lists(k);
-        for (int i = 0; i < k; i++)
+        int len;
+        cin >> len;
+        ListNode *dumhead = new ListNode();
+        ListNode *curptr = dumhead;
+        while (len)
         {
-            int len;
-            cin >> len;
-            ListNode *dumhead = new ListNode();
-            ListNode *curptr = dumhead;
-            while (len)
-            {
-                ListNode *visited_val = new ListNode();
-                cin >> visited_val->val;
-                curptr->next = visited_val;
-                curptr = curptr->next;
-                len--;
-            }
-            lists[i] = dumhead->next;
+            ListNode *visited_val = new ListNode();
+            cin >> visited_val->val;
+            curptr->next = visited_val;
+            curptr = curptr->next;
+            len--;
         }
-        ListNode *result = mergeKLists(lists);
-        cout << '[';
-        while (result)
-        {
-            cout << result->val;
-            if (result->next)
-            {
-                cout << ',';
-            }
-            result = result->next;
-        }
-        cout << ']' << endl;
-        cases--;
+        lists[i] = dumhead->next;
     }
+    ListNode *result = mergeKLists(lists);
+    // cout << '[';
+    while (result)
+    {
+        cout << result->val;
+        if (result->next)
+        {
+            cout << ' ';
+        }
+        result = result->next;
+    }
+    // cout << ']' << endl;
+    // cases--;
+    // }
 }

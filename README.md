@@ -1,4 +1,4 @@
-# LeetCode ACM Online Judge 测试框架
+# LeetCode ACM 测试框架
 
 ## 项目结构简化说明
 

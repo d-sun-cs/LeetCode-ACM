@@ -14,17 +14,21 @@
 
 ### 1. 在VS Code中运行测试（推荐）
 
-在CMake的活动任务栏中，可以点击运行特定问题的测试目标：
+在CMake的活动任务栏中，首先编译测试目标，例如 `test_23` 和 `test_42`
+
+然后可以点击运行特定问题的测试目标：
+
 - `test_23` - 运行问题23的测试
 - `test_42` - 运行问题42的测试
-- 任何新增的数字目录都会自动识别
+
+任何新增的数字目录都会自动识别
 
 ### 2. 从命令行运行测试
 
 ```bash
-cd build
-cmake --build . --target test_23  # 测试问题23
-cmake --build . --target test_42  # 测试问题42
+cd build/bin
+cmake --build .. --target test_23 && ./test_23 # 测试问题23
+cmake --build .. --target test_42 && ./test_42 # 测试问题42
 ```
 
 ## 工作流程
@@ -67,8 +71,8 @@ CMakeLists.txt
 ├── 编译 test_runner (test.cpp)
 ├── 为每个题号目录编译 <题号> (main.cpp)
 └── 为每个题号创建 test_<题号> 目标
-    └── 运行: test_runner <题号>
-        ├── 执行 <题号>/<题号> 程序，输入 input.txt
+    └── 运行: test_<题号>
+        ├── 执行 <题号> 程序，输入 input.txt
         ├── 捕获输出到 my_output.txt
         └── 对比 my_output.txt 和 output.txt
 ```
@@ -83,11 +87,11 @@ CMakeLists.txt
 
 ## Prompt
 
-```text
+```plain text
 对于给出的LeetCode算法题构造出类似于洛谷平台的用于检测的input.txt和output.txt；
-最好用空格与换行组织数据，而不用`[`和`,`之类的符号分隔，；
+最好用空格与换行组织数据，而不用`[`和`,`之类的符号分隔；
 对于数组输入要单独给出一行长度数值，其他信息也要合理组织；
-input.txt和output.txt每组数据之间使用短横线`---`隔开，代表程序每次只读取其中一组，然后输出一组，文件开头没有`---`，但结尾应当有`---`；
+input.txt和output.txt每组数据先给出数据内容，再用短横线`---`隔开，代表程序每次只读取其中一组，然后输出一组，注意文件开头没有`---`，但结尾应当有`---`；
 尽量使用LeetCode原题给出的示例数据；
-除此之外不需要提供题解等其他内容。
+除此之外不需要提供题解和测试代码等其他内容。
 ```

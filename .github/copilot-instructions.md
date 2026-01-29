@@ -48,6 +48,8 @@ The build system automatically discovers all problem directories and generates e
   }
   ```
 
+  - If the problem description includes a special test-case format (like operation sequences for Problem 295), include a concise C-style comment block (`/* ... */`) immediately above the `main` function that documents the exact input/output format. Do not include any guidance about implementing the solution — only describe the IO layout and example input/output.
+
 5. **Run CMake to register the new problem:** `cd build && cmake ..`
 
 6. **Report completion** with links to the created files
@@ -137,3 +139,34 @@ using namespace std;
 - String-matches trimmed outputs
 
 **Note:** The test runner uses filesystem operations and expects all binaries in `build/bin/`.
+
+## Quick Shortcut: send an image + a single dot
+
+When the user sends a LeetCode problem screenshot followed by a single `.` (dot) message, the agent MUST perform the following steps automatically and silently (no problem-solving hints or explanations):
+
+- Detect the problem number from the top-left corner of the image (e.g. "84. ..." → `84`).
+- Create the problem directory and three files if they do not exist:
+  ```bash
+  mkdir -p <problem_number>
+  touch <problem_number>/main.cpp
+  touch <problem_number>/input.txt
+  touch <problem_number>/output.txt
+  ```
+- Populate `main.cpp` with the minimal template exactly as below (do NOT add solution logic):
+  ```cpp
+  #include <iostream>
+  using namespace std;
+
+  int main() {
+      return 0;
+  }
+  ```
+  - If a problem has special-case test instructions, add a brief `/* ... */` comment block immediately above `main` describing the input/output layout and any operation codes. Keep it concise and factual (no implementation hints).
+- Generate `input.txt` and `output.txt` using the Test generation rules in this document:
+  - Keep LeetCode example data
+  - Add 4–6 extra cases covering edge cases (empty, single element, increasing, decreasing, identical elements, moderate random)
+  - Use the `---` delimiter format (no leading `---`, end with `---`)
+  - For arrays, put length on its own line followed by elements on the next line
+- Run `cd build && cmake ..` to register the new problem in the build system.
+
+DO NOT provide any hints about solving the problem, algorithms, or implementation suggestions in the response. The agent's reply after creating files should be minimal and may only confirm file creation or list created file paths if a confirmation is required by the environment. The intent: the user will implement the solution themselves.
